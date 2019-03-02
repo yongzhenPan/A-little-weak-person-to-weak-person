@@ -1,0 +1,73 @@
+廖雪峰python
+之前已经学习c++，记录一些不太一样的东西就可以：
+print(r'''month\n
+          week''');
+          
+NULL变成None
+
+字符串" ",' '都可以
+
+a='ABC'
+在内存中创建了一个'ABC'的字符串；
+在内存中创建了一个名为a的变量，并把它指向'ABC'
+
+在Python中，通常用全部大写的变量名表示常量
+
+除法/和// 10/3=3.0，9/3=3.0，10//3=3 （//整数地板除）
+
+内存中使用unicode(可以表示中文，但是比原来ascii的英文字符变长了,但是和unicode相比，ascii又不能表示中文)，于是为了存储节省空间，采用utf_8来存储，这样英文字符又可以用一个字节来表示了，unicode是一律两个字节。
+
+"%08d" % 4   00000004(7个零)       "%.2f" % 1.454  1.45
+
+format格式：
+>>> 'Hello, {0}, 成绩提升了 {1:.1f}%'.format('小明', 17.125)
+'Hello, 小明, 成绩提升了 17.1%'
+
+list:
+classmates = ['Michael', 'Bob', 'Tracy']  
+最后一个元素：classmates[-1]:'Tracy'
+不能越界，不然报错  0-2  -1——-3
+len(classmates):3
+尾部加入：classmates.append('Adam')   把元素插入到指定的位置，比如索引号为1的位置：classmates.insert(1, 'Jack')
+要删除list末尾的元素，用pop()方法：    classmates.pop()          要删除指定位置的元素，用pop(i)方法，其中i是索引位置：classmates.pop(1)
+list里面的元素的数据类型也可以不同：L = ['Apple', 123, True]
+
+tuple：
+classmates = ('Michael', 'Bob', 'Tracy')
+和list差不多，但是更加安全
+t = (1)  数学计算 t=1
+只有1个元素的tuple定义时必须加一个逗号,，来消除歧义： collection(1,)
+“可变”tuple:t = ('a', 'b', ['A', 'B'])，不改变tuple对list的指向关系就可以，list变化管不住
+
+if else 判断语句后面记得加冒号，注意缩进，不然会有语法错误
+
+for in(list和tuple的)   range(101) 0-100   
+while循环，break和continue一样
+
+dictionary(dict) 键-值（key-value）
+判断key是否存在 1.'Thomas' in d（True or False） 2.d.get('Thomas', -1)
+要删除一个key，用pop(key)方法
+
+变量和对象的概念，对象1，2，3，"dfhadjd",["dffd",12,7.8]，实实在在存储的东西应该就是对象所在，而a=1,a就是一个指向对象1的变量
+
+set:类似dict 但是只有key，没有value,key不能重复，s.add(key),s.remove(key).
+set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集&、并集|等操作
+
+自定义函数参数个数，python解释器会检查，但是函数参数类型不会检查，要自己写检查代码：
+ if not isinstance(x, (int, float)):
+        raise TypeError('bad operand type')
+
+函数发挥多个返回值，其实只是一个tuple   :   x, y = move(100, 100, 60, math.pi / 6)
+
+函数默认参数     默认参数必须指向不变对象，不然有奇效
+可变参数(list/tuple) calc(*nums)
+关键字参数(dict):
+>>> extra = {'city': 'Beijing', 'job': 'Engineer'}
+>>> person('Jack', 24, **extra)
+可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict
+
+命名关键字参数:限制传入的关键字参数：
+只接收city和job作为关键字参数：def person(name, age, *, city, job) *加，
+如果函数定义中已经有了一个可变参数，后面跟着的命名关键字参数就不再需要一个特殊分隔符*了：def person(name, age, *args, city, job)
+
+限制发挥的就是命名关键字，不拘一格的就是关键字参数。
