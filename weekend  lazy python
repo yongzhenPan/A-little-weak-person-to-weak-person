@@ -142,6 +142,53 @@ reduce:from functools import reduce,reduce产生一个结果
 filter:过滤函数，然后根据返回值是True还是False决定保留还是丢弃该元素，filter也是一个迭代器
 sort():高级排序,sort(list,key=by_xxx,reverse=True)，对每个元素作用key函数后再按照结果排序。
 
-返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量。返回函数这个还是不太明白。
+返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量。
+def count():
+    fs = []
+    for i in range(1, 4):
+        def f():
+             return i*i
+        fs.append(f)
+    return fs  #返回一个函数list
+
+f1, f2, f3 = count() #列表的赋值
+
+如果一定要引用循环变量怎么办？方法是再创建一个函数，用该函数的参数绑定循环变量当前的值，无论该循环变量后续如何更改，已绑定到函数参数的值不变：
+def count():
+    def f(j):
+        def g():
+            return j*j
+        return g
+    fs = []
+    for i in range(1, 4):
+        fs.append(f(i)) # f(i)立刻被执行，因此i的当前值被传入f()
+    return fs
+    
+UnboundLocalError： local variable 'xxx' referenced before assignment:
+子函数使用并修改父函数的变量，需要声明global，不然还是使用list方法:s=[0]:
+def createCounter():
+    count=[0];
+    def counter():
+        count[0]+=1;
+        return count[0];
+    return counter;
 
 匿名函数lambda
+
+装饰器：
+import functools
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args,**kw):
+        #装饰语句
+        return func(*args,**kw)
+    return wrapper
+因为返回的那个wrapper()函数名字就是'wrapper'，所以，需要把原始函数的__name__等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。
+如果,log需要参数，引入三层嵌套
+@log加到被装饰的函数的定义前面
+
+偏函数：
+当函数的参数个数太多，需要简化时，使用functools.partial可以创建一个新的函数，这个新函数可以固定住原函数的部分参数，从而在调用时更简单。
+
+模块：
+
