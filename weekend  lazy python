@@ -5,7 +5,7 @@ print(r'''month\n
           
 NULL变成None
 
-字符串" ",' '都可以
+字符串" ",' '都可以，str.upper()只是重新生成一个大写的字符串，并没有改变原来字符串，并且str还是指向原来的字符串
 
 a='ABC'
 在内存中创建了一个'ABC'的字符串；
@@ -80,5 +80,68 @@ def person(name, age, city, job):
 在函数调用的时候，Python解释器自动按照参数位置和参数名把对应的参数传进去。
 但是，任何函数都可以通过类似func(*args, **kw)的形式调用它，无论它的参数是如何定义的，我们的参数会被拆开解释
 
+解决递归调用栈溢出的方法是通过尾递归优化：
+尾递归是指，在函数返回的时候，调用自身本身，并且，return语句不能包含表达式。这样，编译器或者解释器就可以把尾递归做优化，使递归本身无论调用多少次，都只占用一个栈帧，不会出现栈溢出的情况。
+Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。
 
+slice:L[0:3] (从索引0开始取，直到索引3为止) 
+如果第一个索引是0，还可以省略:L[:3]
+倒数切片:L[-3:-1]:  -3,-2,没有-1  后10个数L[-10:]   L[:20:2] L[::10]
+tuple也可以用切片操作，只是操作的结果仍是tuple
+字符串也可以用切片操作，只是操作结果仍是字符串:Python没有针对字符串的截取函数，只需要切片一个操作就可以完成，非常简单
+字符串反转：temp=s[::-1]
 
+迭代： for key in dict:    for value in dict:
+字符串也是可迭代对象，因此，也可以作用于for循环
+判断一个对象是可迭代对象:
+>>> from collections import Iterable
+>>> isinstance('abc', Iterable) # str是否可迭代
+
+Python内置的enumerate函数可以把一个list变成索引-元素对，这样就可以在for循环中同时迭代索引和元素本身：
+>>> for i, value in enumerate(['A', 'B', 'C']):
+...     print(i, value)
+...
+0 A
+1 B
+2 C
+
+None和其他一切东西比较都是False ,()==None =False,None就是一种特殊类型None Type,不是零，也不代表空
+p=(1.2,4);
+p=None; #p不会变成空tuple，而是变成None
+
+列表生成式:
+[x * x for x in range(1, 11)],[x * x for x in range(1, 11) if x % 2 == 0],[m + n for m in 'ABC' for n in 'XYZ'],[s.lower() for s in L]
+[x+y for x in L1 for y in L2]注意是嵌套循环！！！不是同时迭代
+列表生成式也可以使用两个变量来生成list:[k + '=' + v for k, v in d.items()]，是同时迭代
+
+生成器generator：
+创建L和g的区别仅在于最外层的[]和()，L是一个list，而g是一个generator。
+正确的方法是使用for循环，因为generator也是可迭代对象:
+g=(x*x for x in range(10));
+for n in g:
+    print(n);
+    
+while True:无限循环
+字典键冲突了，不要出现重复的key-value
+两个list值相加：[x+y for x,y in zip(L1,L2)]，用zip才不会出现嵌套循环
+
+可以直接作用于for循环的数据类型有以下几种：
+一类是集合数据类型，如list、tuple、dict、set、str等；
+一类是generator，包括生成器和带yield的generator function。
+这些可以直接作用于for循环的对象统称为可迭代对象：Iterable。
+可以使用isinstance()判断一个对象是否是Iterable对象
+
+可以被next()函数调用并不断返回下一个值的对象称为迭代器：Iterator
+Python的Iterator对象表示的是一个数据流，Iterator对象可以被next()函数调用并不断返回下一个数据，直到没有数据时抛出StopIteration错误
+生成器都是Iterator对象，但list、dict、str虽然是Iterable，却不是Iterator。
+把list、dict、str等Iterable变成Iterator可以使用iter()函数。
+
+高阶函数：
+map:map生成一个迭代器，要有限穷举的话使用list(map(fn,sub_list))，list强迫惰性iterator完成计算
+reduce:from functools import reduce,reduce产生一个结果
+filter:过滤函数，然后根据返回值是True还是False决定保留还是丢弃该元素，filter也是一个迭代器
+sort():高级排序,sort(list,key=by_xxx,reverse=True)，对每个元素作用key函数后再按照结果排序。
+
+返回一个函数时，牢记该函数并未执行，返回函数中不要引用任何可能会变化的变量。返回函数这个还是不太明白。
+
+匿名函数lambda
