@@ -1,0 +1,25 @@
+类：
+class classmate(object):
+    
+    def _init_(self,name,age):
+        self.name=name
+        self.age=age   #在__init__方法内部，就可以把各种属性绑定到self
+        
+     def print_name(self)
+         print("my name is %s" % self.name)
+和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数。除此之外，类的方法和普通函数没有什么区别，所以，你仍然可以用默认参数、可变参数、关键字参数和命名关键字参数。
+
+和静态语言不同，Python允许对实例变量绑定任何数据，也就是说，对于两个实例变量，虽然它们都是同一个类的不同实例，但拥有的变量名称都可能不同：
+实例变量可以自己随意绑定
+>>> bart = Student('Bart Simpson', 59)
+>>> lisa = Student('Lisa Simpson', 87)
+>>> bart.age = 8
+>>> bart.age
+8
+>>> lisa.age
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Student' object has no attribute 'age'
+
+类
+
