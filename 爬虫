@@ -1,1 +1,8 @@
 爬虫就是，连接网址，下载网页，按照规则爬取信息
+
+开发方式：requests + beautifulsoup
+
+requests帮我连接网址，下载网页
+headers(键值dict)属性解决反爬问题(模拟浏览器环境)  headers = {'User-Agent':}
+
+beautifulsoup实现高级解析
