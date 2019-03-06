@@ -6,3 +6,7 @@ requests帮我连接网址，下载网页
 headers(键值dict)属性解决反爬问题(模拟浏览器环境)  headers = {'User-Agent':}
 
 beautifulsoup实现高级解析
+
+先研究翻页（观察每一页url）
+再在每一页中寻找每个房源url
+通过每个房源url转到房源页面，爬取信息
